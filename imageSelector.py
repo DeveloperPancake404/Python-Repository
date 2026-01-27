@@ -1,17 +1,26 @@
-import tkinter
-from tkinter import Tk, Label
-from PIL import Image, ImageTk
-from tkinter import filedialog, Tk
+import tkinter as tk
+from tkinter import filedialog, Tk, Label
+from PIL import Image, ImageTk # type: ignore
 
 root = Tk()
 
-file_path = filedialog.askopenfilename(
-    filetypes=[
-        ("Images", "*.png *.jpg *.jpeg")
-        ]    
-        )
-img = Image.open(file_path)
-photo = ImageTk.PhotoImage(img)
-label = Label(root, image=photo).pack()
+label = Label(root)
+label.pack()
+
+def load_image():
+    file_path = filedialog.askopenfilename(
+        filetypes=[
+            ("Images", "*.png *.jpg *.jpeg")
+        ]
+    )
+    if not file_path:
+        return
+    img = Image.open(file_path)
+    photo = ImageTk.PhotoImage(img)
+    label.config(image=photo)
+    label.image = photo
+
+button = tk.Button(text="Load image", command=load_image)
+button.pack()
 
 root.mainloop()
